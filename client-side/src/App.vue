@@ -2,11 +2,13 @@
   <body class="app">
     <navigation :isLoggedIn="isLoggedIn" :auth="auth" />
     <router-view class="p-3" />
+    <Footer/>
   </body>
 </template>
 
 <script>
 import Navigation from "./components/navbar/Navigation.vue";
+import Footer from "./components/footer/Footer.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "firebase/auth";
 
@@ -14,6 +16,7 @@ export default {
   name: "app",
   components: {
     Navigation,
+    Footer
   },
   data() {
     return {
