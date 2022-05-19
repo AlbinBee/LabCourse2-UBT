@@ -1,8 +1,10 @@
 <template>
 <header>
-  <nav class="container">
+ <nav class="container">
       <div class="branding">
-        <router-link class="header"></router-link>
+        <router-link class="header">
+         <p class="test">Test</p> 
+        </router-link>
       </div> 
       <div class="nav-links">
         <ul>
@@ -26,7 +28,7 @@
           </router-link>
         </ul>
     </transition>
-  </header>
+</header>
 </template>
 
 <script>
@@ -71,23 +73,18 @@ export default {
 
 
 <style lang="scss" scoped>
-
-.dark nav{
-  border-bottom: 3px solid white !important;
-}
-
 header {
-  background-color: white;
   padding: 0 25px;
   box-shadow: 0 4px 6px -1 rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.86);
-  z-index: 99;
+  border-bottom: 3px solid red;
 
   .link {
     font-weight: 500;
     padding: 0.8px;
     transition: 0.3s color ease;
     padding: 15px;
+    border: 4px solid red;
 
     &:hover {
       color: teal;
@@ -102,7 +99,6 @@ header {
 nav {
   display: flex;
   padding: 25px 0;
-  border-bottom: 3px solid #303030 !important;
 
   .branding {
     display: flex;
@@ -172,7 +168,7 @@ nav {
             width: 40px;
             height: 40px;
             background-color: #fff;
-            color: #303030;
+            color:#303030;
             display: flex;
             align-items: center;
             display: flex;
