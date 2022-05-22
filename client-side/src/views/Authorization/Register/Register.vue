@@ -1,38 +1,35 @@
 <template>
-  <body class="d-flex justify-content-center form-wrap">
-    <form class="register">
-      <p class="login-register">
-        Already have an Account?
-        <router-link class="router-link" :to="{ name: 'Login' }">
-          <h2>Login</h2>
-        </router-link>
-      </p>
-      <h2>Create your CinemaVerse Account</h2>
-      <button @click.prevent="signInWithGoogle">Google Sign Up</button>
-      <div class="inputs">
-        <div class="input">
-          <input type="text" placeholder="Display Name" v-model="displayName" />
+  <body>
+    <div class="main">
+        <div class="form">
+            <form>
+               <label id="login">Already have an account?</label>
+                  <router-link class="router-link" :to="{ name: 'Login' }">
+                    <h2>Login</h2>
+                  </router-link>
+               <label id="login">Display Name:</label>
+                <input type="text" placeholder="Display Name" v-model="displayName">
+               <label id="login">Photo URL</label>
+                <input type="text" placeholder="Photo Url" v-model="photoURL">
+                <label id="login">Email</label>
+                <input type="text" placeholder="Email" v-model="email">
+                <label>Password:</label>
+                <input  type="password" placeholder="Password" v-model="password">
+              <button-f buttonText="Sign Up" @click.prevent="submitForm"/>
+            </form>
         </div>
-        <div class="input">
-          <input type="text" placeholder="Photo url" v-model="photoURL" />
+          <div class="error" v-if="errorMsg">
+          {{ errorMsg }}
         </div>
-        <div class="input">
-          <input type="text" placeholder="Email" v-model="email" />
-        </div>
-        <div class="input">
-          <input type="password" placeholder="Password" v-model="password" />
-        </div>
-        <div class="error" v-if="error">
-          {{ this.errorMsg }}
-        </div>
-      </div>
-      <button @click.prevent="submitForm">Sign Up</button>
-    </form>
-    <div class="background"></div>
-  </body>
+    </div>
+</body>
 </template>
 
+
+
 <script>
+import ButtonF from "../../../components/ButtonF.vue"
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -41,6 +38,7 @@ import {
 } from "firebase/auth";
 
 export default {
+  components: { ButtonF },
   data() {
     return {
       email: null,
@@ -110,4 +108,79 @@ export default {
 };
 </script>
 
-<style></style>
+
+<style lang="scss" scoped>
+
+body{
+    background-color: #221C48;
+}
+
+.main{
+    width: 30%;
+    margin-right: 35%;
+    margin-left: 35%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+h2{
+  margin-bottom: 2%;
+  margin-top: 10%;
+}
+
+.form {
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(20, 13, 59);
+}
+
+form{
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    padding:50px;
+}
+
+form label{
+    color: black;
+    margin:10px;
+    font-size: 23px;
+    height:20px;
+    text-align: center;
+}
+
+input{
+    height: 32px;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.form a{
+    text-decoration: none;
+    color: #221C48;
+    text-align: center;
+    margin: 3%;
+}
+
+    @media screen and (max-width: 1150px) {
+      .main{
+          width: 50%;
+          margin-right: 25%;
+          margin-left: 25%;
+      }
+    }
+
+    @media screen and (max-width: 700px) {
+         .main{
+          width: 80%;
+          margin-right: 10%;
+          margin-left: 10%;
+      }
+    }
+
+
+</style>
