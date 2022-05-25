@@ -1,11 +1,21 @@
 const mongoose = require("mongoose");
 
-const schema = mongoose.Schema({
-	reviews: String,
-	film: String,
-	client: String,
-});
+// const schema = mongoose.Schema({
+// 	reviews: String,
+// 	film: String,
+// 	client: String,
+// });
 
-const model = mongoose.model("reviews", schema);
+class User {
+	constructor(reviews, film, client) {
+		this.reviews = reviews;
+		this.film = film;
+		this.client = client;
+	}
+}
 
-export default model;
+const model = mongoose.model("reviews" + User);
+
+module.exports = { model };
+
+// module.exports = User;

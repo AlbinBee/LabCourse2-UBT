@@ -1,6 +1,6 @@
 const ReviewModel = require("../Models/ReviewModel");
 
-export default {
+module.exports = {
 	list: async (req, res) => {
 		const list = await ReviewModel.find();
 
@@ -13,13 +13,17 @@ export default {
 		return res.json(foundItem);
 	},
 	post: async (req, res) => {
-		const post = req.body;
+		try {
+			const post = req.body;
 
-		const addReview = await new ReviewModel(post);
+			const addReview = await new ReviewModel(post);
 
-		addReview.save();
+			addReview.save();
 
-		return res.json(addReview);
+			return res.json(addReview);
+		} catch (error) {
+			console.log(`errori te post: ${error}`);
+		}
 	},
 	delete: async (req, res) => {
 		const { id } = req.params;

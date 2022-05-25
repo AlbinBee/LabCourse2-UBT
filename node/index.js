@@ -5,7 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const config = require("./config");
 const userRoutes = require("./Routes/user-routes");
-const { default: ReviewRoute } = require("./Routes/ReviewRoute");
+const mongoose = require("mongoose");
+const ReviewRoute = require("./Routes/ReviewRoute");
 
 const connectionSting = "mongodb://localhost:27017/Kinema";
 
@@ -18,7 +19,7 @@ mongoose.connect(connectionSting).then(() => {
 	app.use(bodyParser.json());
 
 	app.use("/api", userRoutes.routes);
-	app.use("/review", ReviewRoute);
+	app.use("/review", ReviewRoute.routes);
 
 	app.listen(config.port, () =>
 		console.log("App is listening on url http://localhost:" + config.port)

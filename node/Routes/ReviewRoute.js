@@ -13,4 +13,8 @@ ReviewRoute.put("/update/:id", ReviewController.put);
 
 ReviewRoute.delete("/delete/:id", ReviewController.delete);
 
-export default ReviewRoute;
+// module.exports = ReviewRoute;
+
+module.exports = {
+	routes: ReviewRoute,
+};
