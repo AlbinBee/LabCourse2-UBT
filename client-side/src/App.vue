@@ -1,13 +1,12 @@
 <template>
   <!-- App.vue -->
-
   <v-app>
     <navigation :isLoggedIn="isLoggedIn" :auth="auth" />
     <!-- <v-navigation-drawer app>
   </v-navigation-drawer> -->
 
     <!-- Sizes your content based upon application components -->
-    <v-main>
+    <v-main class="container">
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
         <!-- If using vue-router -->
@@ -45,3 +44,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  .container{
+    padding: 0;
+  }
+</style>
