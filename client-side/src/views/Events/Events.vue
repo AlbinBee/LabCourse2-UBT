@@ -129,6 +129,24 @@ export default {
         height: 80%;
         width: 100%;
       }
+      @media (max-width: 900px) {
+        img{
+          height: 60%;
+        }
+
+      .ispaid {
+        width: 80%;
+        margin-right: 10%;
+        margin-left: 10%;
+
+        p{
+          text-align: center;
+          margin-right: 25%;
+          margin-left: 25%;
+        }
+      }
+
+      }
     }
   }
 }
