@@ -2,7 +2,7 @@
   <div>
     <input type="text" v-model="search" placeholder="search cinemas" />
     <div class="card" v-for="cinema in filter" :key="cinema.id">
-      <v-card :loading="loading" class="mx-auto my-12" max-width="374">
+      <v-card class="mx-auto my-12" max-width="374">
         <template slot="progress">
           <v-progress-linear
             color="deep-purple"
