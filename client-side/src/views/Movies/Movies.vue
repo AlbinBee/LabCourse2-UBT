@@ -1,4 +1,4 @@
-<template>
+<!--<template>
 	<div class="movieList">
 		<h1 class="subheading grey--text">Movies</h1>
 		<div>
@@ -17,7 +17,7 @@
 				<v-flex xs12 sm6 md2 lg3 v-for="movie in moviesList" :key="movie.id">
 					<v-card class="text-center ma-5">
 						<v-responsive class="pt-5">
-							<v-avatar size="100" class="red lighten-2 ">
+							<v-avatar size="100" class="red lighten-2">
 								<img src="@/assets/joker.jpg" alt="" />
 							</v-avatar>
 						</v-responsive>
@@ -63,6 +63,22 @@ export default {
 			const result = await getMovies();
 			this.$store.dispatch("fetchMovies", result.result);
 		},
+	},
+};
+</script>-->
+
+<template>
+	<div>
+		<PopularMovies />
+	</div>
+</template>
+
+<script>
+import PopularMovies from "../../components/PopularMovies.vue";
+export default {
+	name: "Movies",
+	components: {
+		PopularMovies,
 	},
 };
 </script>

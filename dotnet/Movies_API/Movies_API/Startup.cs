@@ -42,7 +42,7 @@ namespace Movies.API
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:8080");
+                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:8080", "http://localhost:8081", "http://localhost:8082");
                 });
             });
         }
