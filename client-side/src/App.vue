@@ -1,6 +1,5 @@
 <template>
   <!-- App.vue -->
-
   <v-app>
     <navigation :isLoggedIn="isLoggedIn" :auth="auth" />
     <!-- <v-navigation-drawer app>
@@ -46,6 +45,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+  .container{
+    padding: 0;
+  }
 </style>

@@ -19,7 +19,7 @@ import films from "./routes/films";
 import cinemas from "./routes/cinemas";
 import events from "./routes/events";
 import event from "./routes/event";
-import createEvent from "./routes/createEvent";
+import addEvent from "./routes/addEvent";
 
 const router = new VueRouter({
 	scrollBehavior() {
@@ -35,7 +35,7 @@ const router = new VueRouter({
 		...cinemas,
 		...events,
 		...event,
-		...createEvent,
+		...addEvent,
 		{
 			path: "/login",
 			name: "auth-login",

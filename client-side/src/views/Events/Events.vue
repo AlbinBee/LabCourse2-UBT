@@ -59,9 +59,9 @@ export default {
   margin: 0;
   padding: 0;
   height: auto;
-  background-color: #303030;
+  background-color: rgb(21, 26, 33);
   .landing {
-    background-color: purple;
+    background-color: rgb(21, 26, 33);
     padding: 20px;
     display: block;
     display: flex;
@@ -71,12 +71,14 @@ export default {
       text-align: center;
       font-size: 32px;
       font-family: "Rubik", sans-serif;
+      color:rgb(221, 118, 43);
     }
 
     p {
       text-align: center;
       font-size: 20px;
       font-family: "Poppins", sans-serif;
+      color:white;
     }
   }
 
@@ -96,7 +98,7 @@ export default {
     }
 
     .item {
-      border: 4px solid purple;
+      border: 4px solid rgb(221, 118, 43);
       width: 50%;
       height: 500px;
 
