@@ -18,32 +18,36 @@ import admin from "./routes/admin";
 import movies from "./routes/movies";
 import cinemas from "./routes/cinemas";
 import events from "./routes/events";
+import event from "./routes/event";
+import addEvent from "./routes/addEvent";
 
 const router = new VueRouter({
-  scrollBehavior() {
-    return { x: 0, y: 0 };
-  },
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    ...base,
-    ...users,
-    ...admin,
-    ...movies,
-    ...cinemas,
-    ...events,
-    {
-      path: "/login",
-      name: "auth-login",
-      component: () => import("@/views/Authorization/Login/Login.vue"),
-      meta: {
-        isPublic: true,
-        layout: "public",
-        resource: "Auth",
-        redirectIfLoggedIn: true,
-      },
-    },
-  ],
+	scrollBehavior() {
+		return { x: 0, y: 0 };
+	},
+	mode: "history",
+	base: process.env.BASE_URL,
+	routes: [
+		...base,
+		...users,
+		...admin,
+		...films,
+		...cinemas,
+		...events,
+		...event,
+		...addEvent,
+		{
+			path: "/login",
+			name: "auth-login",
+			component: () => import("@/views/Authorization/Login/Login.vue"),
+			meta: {
+				isPublic: true,
+				layout: "full",
+				resource: "Auth",
+				redirectIfLoggedIn: true,
+			},
+		},
+	],
 });
 
 const getCurrentUser = () => {
