@@ -5,6 +5,7 @@ namespace Movies.Core.Domain
 {
     public class Movie : BaseEntity, ISoftDeletedEntity
     {
+        public int CinemaId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Director { get; set; }
