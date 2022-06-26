@@ -3,9 +3,9 @@ using Movies.Core.Domain;
 using Movies.Services.Models.Actors;
 using Movies.Services.Models.Cinemas;
 using Movies.Services.Models.Halls;
+using Movies.Services.Models.Events;
 using Movies.Services.Models.Movies;
 using Movies.Services.Models.Photos;
-using System;
 
 namespace Movies.Api.Infrastructure.AutoMapper
 {
@@ -18,6 +18,7 @@ namespace Movies.Api.Infrastructure.AutoMapper
             CreatePhotoMapper();
             CreateHallMapper();
             CreateActorMapper();
+            CreateEventMapper();
         }
 
         private void CreateActorMapper()
@@ -77,6 +78,21 @@ namespace Movies.Api.Infrastructure.AutoMapper
                 .ReverseMap();
 
             CreateMap<CinemaModel, CinemaCreateModel>()
+                .ReverseMap();
+        }
+
+        private void CreateEventMapper()
+        {
+            CreateMap<Event, EventModel>()
+                .ReverseMap();
+
+            CreateMap<Event, EventListModel>()
+                .ReverseMap();
+
+            CreateMap<EventCreateModel, Event>()
+                .ReverseMap();
+
+            CreateMap<EventModel, EventCreateModel>()
                 .ReverseMap();
         }
 

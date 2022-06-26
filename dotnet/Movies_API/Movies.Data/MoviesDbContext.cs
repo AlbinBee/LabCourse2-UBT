@@ -17,6 +17,7 @@ namespace Movies.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<Actor> Actors { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
