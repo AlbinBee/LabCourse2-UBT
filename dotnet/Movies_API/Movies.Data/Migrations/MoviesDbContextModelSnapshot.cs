@@ -111,44 +111,6 @@ namespace Movies.Data.Migrations
                     b.ToTable("Cinemas");
                 });
 
-            modelBuilder.Entity("Movies.Core.Domain.Hall", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("CinemaId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("HallNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("InsertDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("InsertedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("NumOfSeats")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CinemaId");
-
-                    b.ToTable("Halls");
-                });
-
             modelBuilder.Entity("Movies.Core.Domain.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -188,6 +150,44 @@ namespace Movies.Data.Migrations
                     b.HasIndex("CinemaId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Movies.Core.Domain.Hall", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("CinemaId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("HallNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("InsertedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("NumOfSeats")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CinemaId");
+
+                    b.ToTable("Halls");
                 });
 
             modelBuilder.Entity("Movies.Core.Domain.Movie", b =>
@@ -268,6 +268,9 @@ namespace Movies.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("ImgClientPath")
+                        .HasColumnType("text");
+
                     b.Property<string>("ImgPath")
                         .HasColumnType("text");
 
@@ -308,15 +311,6 @@ namespace Movies.Data.Migrations
                         .HasForeignKey("MovieId");
                 });
 
-            modelBuilder.Entity("Movies.Core.Domain.Hall", b =>
-                {
-                    b.HasOne("Movies.Core.Domain.Cinema", "Cinema")
-                        .WithMany("Halls")
-                        .HasForeignKey("CinemaId");
-
-                    b.Navigation("Cinema");
-                });
-
             modelBuilder.Entity("Movies.Core.Domain.Event", b =>
                 {
                     b.HasOne("Movies.Core.Domain.Cinema", "Cinema")
@@ -324,6 +318,15 @@ namespace Movies.Data.Migrations
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cinema");
+                });
+
+            modelBuilder.Entity("Movies.Core.Domain.Hall", b =>
+                {
+                    b.HasOne("Movies.Core.Domain.Cinema", "Cinema")
+                        .WithMany("Halls")
+                        .HasForeignKey("CinemaId");
 
                     b.Navigation("Cinema");
                 });
@@ -352,9 +355,9 @@ namespace Movies.Data.Migrations
 
             modelBuilder.Entity("Movies.Core.Domain.Cinema", b =>
                 {
-                    b.Navigation("Halls");
-
                     b.Navigation("Events");
+
+                    b.Navigation("Halls");
 
                     b.Navigation("Movies");
 
