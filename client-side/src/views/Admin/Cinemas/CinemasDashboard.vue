@@ -1,77 +1,86 @@
 <template>
-  <div class="table-wrapper cinemas">
+  <div class="table-wrapper p-2 cinemas">
     <h2>Cinemas</h2>
     <hr />
     <div class="d-flex mb-5 cinemas-header">
       <div>
-        <b-button class="mr-2" variant="success" @click="onCreateCinema()">
+        <v-btn color="success" class="mr-2" @click="onCreateCinema()">
+          <v-icon left dark> mdi-plus </v-icon>
           Create Cinema
-        </b-button>
+        </v-btn>
       </div>
       <div>
-        <b-button
-          variant="outline-primary"
+        <v-btn
+          color="primary"
           :disabled="!isSelected"
           class="mr-2 d-lg-inline action-cinema-button"
           @click="onEditClick(selected[0].id)"
         >
           Edit
-        </b-button>
-        <button-loading
-          variant="outline-primary"
-          :disabled="!isSelected"
-          :spinning="removingCinema"
+        </v-btn>
+        <v-btn
+          color="error"
+          :loading="removingCinema"
+          :disabled="!isSelected || removingCinema"
           class="mr-2 d-lg-inline action-cinema-button"
           @click="onDeleteClick(selected[0].id)"
         >
           Delete
-        </button-loading>
+          <template v-slot:loader>
+            <span class="custom-loader">
+              <v-icon light>mdi-cached</v-icon>
+            </span>
+          </template>
+        </v-btn>
       </div>
-      <button-loading
-        variant="outline-primary"
-        class="mt-1 mt-sm-0 ml-auto mr-0"
-        :spinning="loading"
+      <v-btn
+        :loading="loading"
         :disabled="loading"
+        color="blue-grey"
+        class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
         @click="onRefresh()"
       >
         Refresh
-      </button-loading>
+        <v-icon right dark> mdi-refresh </v-icon>
+        <template v-slot:loader>
+          <span class="custom-loader">
+            <v-icon light>mdi-cached</v-icon>
+          </span>
+        </template>
+      </v-btn>
     </div>
     <!-- DESKTOP -->
     <div class="default-table position-relative d-lg-block">
-      <paper-simple>
-        <v-data-table
-          v-model="selected"
-          :single-select="true"
-          show-select
-          :headers="headers"
-          :items="cinemas"
-          item-key="id"
-          :items-per-page="10"
-          :loading="loading"
-          loading-text="Loading Cinemas... Please wait"
-          :class="{ loaded: !loading }"
-          class="elevation-1"
-        >
-          <template v-slot:[`item.name`]="{ item }">
-            <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
+      <v-data-table
+        v-model="selected"
+        :single-select="true"
+        show-select
+        :headers="headers"
+        :items="cinemas"
+        item-key="id"
+        :items-per-page="10"
+        :loading="loading"
+        loading-text="Loading Cinemas... Please wait"
+        :class="{ loaded: !loading }"
+        class="elevation-1"
+      >
+        <template v-slot:[`item.name`]="{ item }">
+          <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
+        </template>
+        <template #empty>
+          <div v-if="loading" class="loading-table text-center py-1">
+            <b-spinner variant="primary" />
+          </div>
+          <template v-else>
+            <no-data
+              no-data-text="No Cinemas have been added yet..."
+              create-text="+ Create Cinema"
+              access-page="Cinemas"
+              @action="onCreateCinema()"
+            />
           </template>
-          <template #empty>
-            <div v-if="loading" class="loading-table text-center py-1">
-              <b-spinner variant="primary" />
-            </div>
-            <template v-else>
-              <no-data
-                no-data-text="No Cinemas have been added yet..."
-                create-text="+ Create Cinema"
-                access-page="Cinemas"
-                @action="onCreateCinema()"
-              />
-            </template>
-          </template>
-        </v-data-table>
-      </paper-simple>
-      <table-busy v-if="loading && cinemas.length > 0" />
+        </template>
+      </v-data-table>
     </div>
   </div>
 </template>

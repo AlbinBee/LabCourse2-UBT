@@ -6,6 +6,7 @@
       </v-col>
       <v-col cols="3">
         <v-select
+          solo
           v-model="selectedCinema"
           :items="getObjectOptionsName(cinemas)"
           @change="changeCinema()"
@@ -94,7 +95,6 @@
           </template>
         </template>
       </v-data-table>
-      <table-busy v-if="loading && movies.length > 0" />
     </div>
   </div>
 </template>
