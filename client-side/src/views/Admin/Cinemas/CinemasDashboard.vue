@@ -40,28 +40,22 @@
     <!-- DESKTOP -->
     <div class="default-table position-relative d-lg-block">
       <paper-simple>
-        <b-table
-          ref="table"
+        <v-data-table
+          v-model="selected"
+          :single-select="true"
+          show-select
+          :headers="headers"
           :items="cinemas"
-          :fields="fields"
-          select-mode="single"
-          show-empty
-          selectable
-          responsive
+          item-key="id"
+          :items-per-page="10"
+          :loading="loading"
+          loading-text="Loading Cinemas... Please wait"
           :class="{ loaded: !loading }"
-          :busy="loading"
-          @row-selected="onRowSelected"
+          class="elevation-1"
         >
-          <template #cell(selected)="{ rowSelected }">
-            <select-button :selected="rowSelected" />
+          <template v-slot:[`item.name`]="{ item }">
+            <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
           </template>
-
-          <template #cell(name)="data">
-            <a class="link" @click="onDetailsClick(data.item.id)">{{
-              data.value
-            }}</a>
-          </template>
-
           <template #empty>
             <div v-if="loading" class="loading-table text-center py-1">
               <b-spinner variant="primary" />
@@ -71,12 +65,11 @@
                 no-data-text="No Cinemas have been added yet..."
                 create-text="+ Create Cinema"
                 access-page="Cinemas"
-                icon="Monitoring"
                 @action="onCreateCinema()"
               />
             </template>
           </template>
-        </b-table>
+        </v-data-table>
       </paper-simple>
       <table-busy v-if="loading && cinemas.length > 0" />
     </div>
@@ -89,6 +82,18 @@ export default {
   components: {},
   data() {
     return {
+      headers: [
+        {
+          text: "Id",
+          align: "start",
+          sortable: false,
+          value: "id",
+        },
+        { text: "Name", value: "name" },
+        { text: "City", value: "city" },
+        { text: "Address", sortable: false, value: "address" },
+        { text: "Number Of Venues", value: "numberOfVenues" },
+      ],
       selected: [],
       fields: [
         {
