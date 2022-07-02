@@ -111,5 +111,42 @@ export default {
           });
       });
     },
+    addCinemaPhotos({ commit }, query) {
+      commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        const headers = {
+          "Content-Type": "multipart/form-data",
+        };
+        api("movies")
+          .post(`cinemas/${query.cinemaId}/photos`, query.files, {
+            headers: headers,
+          })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          })
+          .finally(() => {
+            commit("SET_LOADING", false);
+          });
+      });
+    },
+    removeCinemaPhoto({ commit }, query) {
+      commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        api("movies")
+          .delete(`cinemas/${query.cinemaId}/photos/${query.photoId}`)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          })
+          .finally(() => {
+            commit("SET_LOADING", false);
+          });
+      });
+    },
   },
 };
