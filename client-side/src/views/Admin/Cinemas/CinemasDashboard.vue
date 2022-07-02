@@ -2,30 +2,48 @@
   <div class="table-wrapper p-2 cinemas">
     <h2>Cinemas</h2>
     <hr />
-    <div class="d-flex mb-5 cinemas-header">
-      <div>
-        <v-btn color="success" class="mr-2" @click="onCreateCinema()">
-          <v-icon left dark> mdi-plus </v-icon>
-          Create Cinema
-        </v-btn>
-      </div>
-      <div>
+    <div v-if="loading"><loading-page /></div>
+    <div v-else>
+      <div class="d-flex mb-5 cinemas-header">
+        <div>
+          <v-btn color="success" class="mr-2" @click="onCreateCinema()">
+            <v-icon left dark> mdi-plus </v-icon>
+            Create Cinema
+          </v-btn>
+        </div>
+        <div>
+          <v-btn
+            color="primary"
+            :disabled="!isSelected"
+            class="mr-2 d-lg-inline action-cinema-button"
+            @click="onEditClick(selected[0].id)"
+          >
+            Edit
+          </v-btn>
+          <v-btn
+            color="error"
+            :loading="removingCinema"
+            :disabled="!isSelected || removingCinema"
+            class="mr-2 d-lg-inline action-cinema-button"
+            @click="onDeleteClick(selected[0].id)"
+          >
+            Delete
+            <template v-slot:loader>
+              <span class="custom-loader">
+                <v-icon light>mdi-cached</v-icon>
+              </span>
+            </template>
+          </v-btn>
+        </div>
         <v-btn
-          color="primary"
-          :disabled="!isSelected"
-          class="mr-2 d-lg-inline action-cinema-button"
-          @click="onEditClick(selected[0].id)"
+          :loading="loading"
+          :disabled="loading"
+          color="blue-grey"
+          class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
+          @click="onRefresh()"
         >
-          Edit
-        </v-btn>
-        <v-btn
-          color="error"
-          :loading="removingCinema"
-          :disabled="!isSelected || removingCinema"
-          class="mr-2 d-lg-inline action-cinema-button"
-          @click="onDeleteClick(selected[0].id)"
-        >
-          Delete
+          Refresh
+          <v-icon right dark> mdi-refresh </v-icon>
           <template v-slot:loader>
             <span class="custom-loader">
               <v-icon light>mdi-cached</v-icon>
@@ -33,54 +51,38 @@
           </template>
         </v-btn>
       </div>
-      <v-btn
-        :loading="loading"
-        :disabled="loading"
-        color="blue-grey"
-        class="mt-1 mt-sm-0 ml-auto mr-0 white--text"
-        @click="onRefresh()"
-      >
-        Refresh
-        <v-icon right dark> mdi-refresh </v-icon>
-        <template v-slot:loader>
-          <span class="custom-loader">
-            <v-icon light>mdi-cached</v-icon>
-          </span>
-        </template>
-      </v-btn>
-    </div>
-    <!-- DESKTOP -->
-    <div class="default-table position-relative d-lg-block">
-      <v-data-table
-        v-model="selected"
-        :single-select="true"
-        show-select
-        :headers="headers"
-        :items="cinemas"
-        item-key="id"
-        :items-per-page="10"
-        :loading="loading"
-        loading-text="Loading Cinemas... Please wait"
-        :class="{ loaded: !loading }"
-        class="elevation-1"
-      >
-        <template v-slot:[`item.name`]="{ item }">
-          <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
-        </template>
-        <template #empty>
-          <div v-if="loading" class="loading-table text-center py-1">
-            <b-spinner variant="primary" />
-          </div>
-          <template v-else>
-            <no-data
-              no-data-text="No Cinemas have been added yet..."
-              create-text="+ Create Cinema"
-              access-page="Cinemas"
-              @action="onCreateCinema()"
-            />
+      <div class="default-table position-relative d-lg-block">
+        <v-data-table
+          v-model="selected"
+          :single-select="true"
+          show-select
+          :headers="headers"
+          :items="cinemas"
+          item-key="id"
+          :items-per-page="10"
+          :loading="loading"
+          loading-text="Loading Cinemas... Please wait"
+          :class="{ loaded: !loading }"
+          class="elevation-1"
+        >
+          <template v-slot:[`item.name`]="{ item }">
+            <a class="link" @click="onDetailsClick(item.id)">{{ item.name }}</a>
           </template>
-        </template>
-      </v-data-table>
+          <template #empty>
+            <div v-if="loading" class="loading-table text-center py-1">
+              <b-spinner variant="primary" />
+            </div>
+            <template v-else>
+              <no-data
+                no-data-text="No Cinemas have been added yet..."
+                create-text="+ Create Cinema"
+                access-page="Cinemas"
+                @action="onCreateCinema()"
+              />
+            </template>
+          </template>
+        </v-data-table>
+      </div>
     </div>
   </div>
 </template>
