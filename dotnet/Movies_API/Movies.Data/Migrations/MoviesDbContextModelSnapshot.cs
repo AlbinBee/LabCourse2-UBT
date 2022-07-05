@@ -136,8 +136,14 @@ namespace Movies.Data.Migrations
                     b.Property<Guid>("InsertedBy")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("timestamp without time zone");
@@ -159,7 +165,7 @@ namespace Movies.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("CinemaId")
+                    b.Property<int>("CinemaId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("Deleted")
@@ -252,6 +258,47 @@ namespace Movies.Data.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("Movies.Core.Domain.MovieReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("InsertedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("ReviewDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReviewTitle")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MovieReviews");
+                });
+
             modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -326,7 +373,9 @@ namespace Movies.Data.Migrations
                 {
                     b.HasOne("Movies.Core.Domain.Cinema", "Cinema")
                         .WithMany("Halls")
-                        .HasForeignKey("CinemaId");
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cinema");
                 });
@@ -340,6 +389,17 @@ namespace Movies.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Cinema");
+                });
+
+            modelBuilder.Entity("Movies.Core.Domain.MovieReview", b =>
+                {
+                    b.HasOne("Movies.Core.Domain.Movie", "Movie")
+                        .WithMany("MovieReviews")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
@@ -367,6 +427,8 @@ namespace Movies.Data.Migrations
             modelBuilder.Entity("Movies.Core.Domain.Movie", b =>
                 {
                     b.Navigation("Actors");
+
+                    b.Navigation("MovieReviews");
 
                     b.Navigation("Photos");
                 });
