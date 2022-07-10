@@ -76,7 +76,7 @@
         <v-container>
           <v-row>
             <p>Qitu mi shfaq do movies</p>
-            <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
+            <v-col v-for="j in 6" :key="`${j}`" cols="6" md="2">
               <v-sheet height="150">
                 <!-- <img :src="cinemas" alt="" /> -->
               </v-sheet>
@@ -86,7 +86,7 @@
       </v-main>
     </div>
 
-    <div>
+    <!-- <div>
       <v-main class="grey lighten-2">
         <v-container>
           <v-row>
@@ -97,49 +97,47 @@
           </v-row>
         </v-container>
       </v-main>
-    </div>
+    </div> -->
     <div class="container">
-      <section class="about-container container">
-        <div class="about-sections">
-          <img class="offer-image" :src="photo1" alt="" />
-          <div class="description">
-            <h3>About Us</h3>
-            <p>
-              CinemaVerse, as the first project in our region for the union of
-              cinemas, is a big project that is doing very well because it is
-              easy to use and you have everything in one place. CinemaVerse was
-              created with the aim of bringing customers together in one
-              platform, through comments, movie selection and online payment.
-            </p>
-          </div>
+      <div class="about-sections">
+        <img class="offer-image" :src="photo1" alt="" />
+        <div class="description">
+          <h3>About Us</h3>
+          <p>
+            CinemaVerse, as the first project in our region for the union of
+            cinemas, is a big project that is doing very well because it is easy
+            to use and you have everything in one place. CinemaVerse was created
+            with the aim of bringing customers together in one platform, through
+            comments, movie selection and online payment.
+          </p>
         </div>
-        <div class="about-sections">
-          <div class="description">
-            <h3>Our Mission</h3>
-            <p>
-              As an application that is at the beginning, we are trying to be
-              the best in the work we do, where we still continue to work
-              towards the quality and maintenance of the application. Our
-              mission for the future is to spread even more through the
-              neighboring countries, to have as many cinemas from different
-              countries as possible and in this way to expand even more.
-            </p>
-          </div>
-          <img class="offer-image" :src="photo2" alt="" />
+      </div>
+      <div class="about-sections">
+        <div class="description">
+          <img :src="photo2" alt="" />
+          <h3>Our Mission</h3>
+          <p>
+            As an application that is at the beginning, we are trying to be the
+            best in the work we do, where we still continue to work towards the
+            quality and maintenance of the application. Our mission for the
+            future is to spread even more through the neighboring countries, to
+            have as many cinemas from different countries as possible and in
+            this way to expand even more.
+          </p>
         </div>
-        <div class="about-sections">
-          <img class="offer-image" :src="photo3" alt="" />
-          <div class="description">
-            <h3>Experience</h3>
-            <p>
-              Considering that CinemaVerse is the first application in our
-              market, it has been well received by our clients, where we have
-              also received feedback, very good comments. So we are working for
-              the best
-            </p>
-          </div>
+      </div>
+      <div class="about-sections">
+        <img class="offer-image" :src="photo3" alt="" />
+        <div class="description">
+          <h3>Experience</h3>
+          <p>
+            Considering that CinemaVerse is the first application in our market,
+            it has been well received by our clients, where we have also
+            received feedback, very good comments. So we are working for the
+            best
+          </p>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </template>
@@ -196,6 +194,14 @@ export default {
       return this.$store.state.cinemas.cinemas;
       // [0].photos[0].imgClientPath
     },
+    cinema() {
+      return this.$store.state.cinema;
+    },
+  },
+  watch: {
+    cinema() {
+      this.getMovies(this.cinema.id);
+    },
   },
   methods: {
     getCinemas() {
@@ -206,11 +212,19 @@ export default {
         );
       });
     },
+    getMovies(cinemaId) {
+      this.$store.dispatch("getMovies",cinemaId).catch((error) => {
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching cinemas!"
+        );
+      });
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
   width: 95%;
   height: 70%;
@@ -223,14 +237,23 @@ export default {
 .description {
   padding: 50px;
 }
-.about-container {
-  display: flex;
-  flex-direction: column;
-}
 .about-sections {
   display: flex;
   align-items: center;
   background-color: #fff;
   margin: 50px 0 50px 0;
+}
+
+@media screen and (max-width: 900px) {
+  .about-sections {
+    display: flex;
+    flex-direction: column;
+    align-items: row;
+    background-color: #fff;
+  }
+
+  .description {
+    text-align: center;
+  }
 }
 </style>
