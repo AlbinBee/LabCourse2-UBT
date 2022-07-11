@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Movies.Services.Models.Rows;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Movies.Services.Models.Halls
 {
@@ -10,7 +7,11 @@ namespace Movies.Services.Models.Halls
     {
         public int Id { get; set; }
         public int CinemaId { get; set; }
-        public int HallNumber { get; set; }
-        public int NumOfSeats { get; set; }
+        public string Name { get; set; }
+        public string HallNumber { get; set; }
+        public int NumberOfRows { get; set; }
+        public bool Has3D { get; set; }
+
+        public List<RowModel> Rows{ get; set; }
     }
 }

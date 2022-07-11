@@ -7,6 +7,10 @@ using Movies.Services.Models.Events;
 using Movies.Services.Models.Movies;
 using Movies.Services.Models.Photos;
 using Movies.Services.Models.Reviews;
+using Movies.Services.Models.MovieTimes;
+using Movies.Services.Models.Rows;
+using Movies.Services.Models.Seats;
+using Movies.Services.Models.Tickets;
 
 namespace Movies.Api.Infrastructure.AutoMapper
 {
@@ -21,6 +25,10 @@ namespace Movies.Api.Infrastructure.AutoMapper
             CreateActorMapper();
             CreateEventMapper();
             CreateReviewMapper();
+            CreateMovieTimeMapper();
+            CreateRowMapper();
+            CreateSeatMapper();
+            CreateTicketMapper();
         }
 
         private void CreateActorMapper()
@@ -77,8 +85,8 @@ namespace Movies.Api.Infrastructure.AutoMapper
                 .ReverseMap();
 
             CreateMap<MovieCreateModel, Movie>()
-                .ReverseMap();            
-            
+                .ReverseMap();
+
             CreateMap<MovieModel, MovieCreateModel>()
                 .ReverseMap();
         }
@@ -110,6 +118,54 @@ namespace Movies.Api.Infrastructure.AutoMapper
                 .ReverseMap();
 
             CreateMap<EventModel, EventCreateModel>()
+                .ReverseMap();
+        }
+
+        private void CreateMovieTimeMapper()
+        {
+            CreateMap<MovieTime, MovieTimeModel>()
+                .ReverseMap();
+
+            CreateMap<MovieTimeCreateModel, MovieTime>()
+                .ReverseMap();
+
+            CreateMap<MovieTimeModel, MovieTimeCreateModel>()
+                .ReverseMap();
+        }
+
+        private void CreateRowMapper()
+        {
+            CreateMap<Row, RowModel>()
+                .ReverseMap();
+
+            CreateMap<RowCreateModel, Row>()
+                .ReverseMap();
+
+            CreateMap<RowModel, RowCreateModel>()
+                .ReverseMap();
+        }
+
+        private void CreateSeatMapper()
+        {
+            CreateMap<Seat, SeatModel>()
+                .ReverseMap();
+
+            CreateMap<SeatCreateModel, Seat>()
+                .ReverseMap();
+
+            CreateMap<SeatModel, SeatCreateModel>()
+                .ReverseMap();
+        }
+
+        private void CreateTicketMapper()
+        {
+            CreateMap<Ticket, TicketModel>()
+                .ReverseMap();
+
+            CreateMap<TicketCreateModel, Ticket>()
+                .ReverseMap();
+
+            CreateMap<TicketModel, TicketCreateModel>()
                 .ReverseMap();
         }
 

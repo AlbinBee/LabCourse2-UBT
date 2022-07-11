@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Movies.Services.Models.Halls
 {
     public class HallCreateModel
     {
-        public int HallNumber{ get; set; }
-        public int NumOfSeats { get; set; }
+        public string Name { get; set; }
+        public string HallNumber { get; set; }
+        //[MaxLength(15)]
+        [Range(1, 15)]
+        public int NumberOfRows { get; set; }
+        public bool Has3D { get; set; }
     }
 }
