@@ -7,7 +7,7 @@
         <router-link :to="{ name: 'Events' }"> Events </router-link>
         <router-link :to="{ name: 'Movies' }"> Movies </router-link>
         <router-link :to="{ name: 'Cinemas' }"> Cinemas </router-link>
-                   <v-select
+        <v-select
           v-if="isLoggedIn"
           solo
           v-model="selectedCinema"
@@ -18,19 +18,24 @@
       </div>
 
       <div class="right">
-          <v-btn
-            outlined
-            text
-            v-if="!isLoggedIn"
-            :to="{ name: 'Login' }"
-            class="mr-2"
-          >
-            <span>Login</span>
-            <v-icon right>login</v-icon>
-          </v-btn>
-       
-        <v-avatar v-if="isLoggedIn" size="50"> <img :src="user.photoURL" /> </v-avatar>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-btn
+          outlined
+          text
+          v-if="!isLoggedIn"
+          :to="{ name: 'Login' }"
+          class="mr-2"
+        >
+          <span>Login</span>
+          <v-icon right>login</v-icon>
+        </v-btn>
+
+        <v-avatar v-if="isLoggedIn" size="50">
+          <img :src="user.photoURL" />
+        </v-avatar>
+        <v-app-bar-nav-icon
+          v-if="isLoggedIn"
+          @click.stop="drawer = !drawer"
+        ></v-app-bar-nav-icon>
 
         <v-navigation-drawer v-model="drawer" absolute bottom temporary>
           <v-list nav dense>
@@ -40,7 +45,9 @@
             >
               <v-list-item>
                 <v-list-item-title>
-                  <router-link :to="{ name: 'Admin' }"> Admin </router-link>
+                  <router-link v-if="isAdmin" :to="{ name: 'Admin' }">
+                    Admin
+                  </router-link>
                 </v-list-item-title>
               </v-list-item>
 
@@ -59,7 +66,7 @@
 
             <v-list-item>
               <v-list-item-title>
-                <router-link :to="{ name: 'Admin' }"> Sign Out </router-link>
+                <router-link :to="{ name: 'Home' }"> Sign Out </router-link>
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -70,8 +77,6 @@
 </template>
 
 <script>
-import { signOut } from "firebase/auth";
-
 export default {
   components: {},
   data() {
@@ -99,21 +104,6 @@ export default {
     },
   },
   methods: {
-    openNav() {
-      document.getElementById("mySidebar").style.width = "250px";
-      document.getElementById("main").style.marginLeft = "250px";
-    },
-    closeNav() {
-      document.getElementById("mySidebar").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
-    },
-    handleSignOut() {
-      signOut(this.auth).then(() => {
-        this.$store.commit("RESET_STATE");
-        this.$router.push("/login");
-        window.location.reload();
-      });
-    },
     getCinemas() {
       this.$store
         .dispatch("getCinemas")
@@ -149,7 +139,7 @@ export default {
   justify-content: space-between;
   width: 100%;
 
-  .right{
+  .right {
     height: 80px;
   }
 }
@@ -190,7 +180,7 @@ body {
 }
 
 .header a:hover {
-  background-color: #0818a8;
+  background-color: white;
   color: black;
 }
 
