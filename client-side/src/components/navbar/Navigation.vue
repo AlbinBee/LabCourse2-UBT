@@ -8,7 +8,6 @@
         <router-link :to="{ name: 'Movies' }"> Movies </router-link>
         <router-link :to="{ name: 'Cinemas' }"> Cinemas </router-link>
         <v-select
-          v-if="isLoggedIn"
           solo
           v-model="selectedCinema"
           :items="getObjectOptionsName(cinemas)"
@@ -45,7 +44,7 @@
             >
               <v-list-item>
                 <v-list-item-title>
-                  <router-link v-if="isAdmin" :to="{ name: 'Admin' }">
+                  <router-link v-if="user.isAdmin" :to="{ name: 'Admin' }">
                     Admin
                   </router-link>
                 </v-list-item-title>
@@ -65,8 +64,8 @@
             </v-list-item-group>
 
             <v-list-item>
-              <v-list-item-title>
-                <router-link :to="{ name: 'Home' }"> Sign Out </router-link>
+              <v-list-item-title  @click="handleSignOut()">
+                <router-link :to="{ name: 'Login' }"> Sign Out </router-link>
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -77,6 +76,8 @@
 </template>
 
 <script>
+import { signOut } from "firebase/auth";
+
 export default {
   components: {},
   data() {
@@ -104,6 +105,22 @@ export default {
     },
   },
   methods: {
+    changeCinema(){
+      this.$store.dispatch("getCinema",this.selectedCinema.id)
+        .catch((error) => {
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching cinema!"
+          );
+        });
+    },
+    handleSignOut() {
+      signOut(this.auth).then(() => {
+        this.$store.commit("RESET_STATE");
+        this.$router.push("/login");
+        window.location.reload();
+      });
+    },
     getCinemas() {
       this.$store
         .dispatch("getCinemas")
