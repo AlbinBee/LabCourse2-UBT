@@ -7,13 +7,10 @@ using Movies.Data.Interfaces;
 using Movies.Services.Models.Common;
 using Movies.Services.Models.MovieTimes;
 using Movies.Services.Services.Cinemas;
-using Movies.Services.Services.Halls;
-using Movies.Services.Services.Movies;
 using Movies.Services.Services.Tickets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 
