@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Movies.Data.Migrations
 {
     [DbContext(typeof(MoviesDbContext))]
-    partial class MoviesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220711212055_addedAtendeesToEvents")]
+    partial class addedAtendeesToEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,9 +363,6 @@ namespace Movies.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("ActorId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("CinemaId")
                         .HasColumnType("integer");
 
@@ -401,8 +400,6 @@ namespace Movies.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ActorId");
 
                     b.HasIndex("CinemaId");
 
@@ -645,10 +642,6 @@ namespace Movies.Data.Migrations
 
             modelBuilder.Entity("Movies.Core.Domain.Photo", b =>
                 {
-                    b.HasOne("Movies.Core.Domain.Actor", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("ActorId");
-
                     b.HasOne("Movies.Core.Domain.Cinema", null)
                         .WithMany("Photos")
                         .HasForeignKey("CinemaId");
@@ -713,11 +706,6 @@ namespace Movies.Data.Migrations
                     b.Navigation("MovieTime");
 
                     b.Navigation("Seat");
-                });
-
-            modelBuilder.Entity("Movies.Core.Domain.Actor", b =>
-                {
-                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("Movies.Core.Domain.Cinema", b =>
