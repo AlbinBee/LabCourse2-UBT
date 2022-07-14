@@ -53,7 +53,7 @@ namespace Movies.API.Controllers
         }
 
         [HttpGet]
-        [Route("movies/{movieId}/actors/{actorId}/photos")]
+        [Route("actors/{actorId}/photos")]
         [ProducesResponseType(typeof(ApiResponse<IList<PhotoModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int cinemaId, int movieId, int actorId)
@@ -103,7 +103,7 @@ namespace Movies.API.Controllers
         }
 
         [HttpPost]
-        [Route("movies/{movieId}/actors/{actorId}/photos")]
+        [Route("actors/{actorId}/photos")]
         [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(int cinemaId, int movieId, int actorId, List<IFormFile> files)
@@ -146,7 +146,7 @@ namespace Movies.API.Controllers
         }
 
         [HttpDelete]
-        [Route("movies/{movieId}/actors/{actorId}/photos/{photoId}")]
+        [Route("actors/{actorId}/photos/{photoId}")]
         [ProducesResponseType(typeof(ApiResponse<PhotoModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int cinemaId, int movieId, int actorId, Guid photoId)
