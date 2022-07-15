@@ -11,6 +11,14 @@ export default [
 			),
 	},
 	{
+		path: "/events/:eventId",
+		name: "Event",
+		component: () =>
+			import(
+				/* webpackChunkName: "movie-public-details" */ "../../views/Events/EventDetails.vue"
+			),
+	},
+	{
 		path: "/event",
 		name: "Event",
 		component: () =>
