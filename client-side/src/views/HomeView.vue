@@ -202,15 +202,7 @@ export default {
           "getMovies",
           this.cinemaId == null ? this.cinema.id : this.cinemaId
         )
-        .then(() => {
-          if (this.movies.length > 0) {
-            if (this.movies.photos.length > 0) {
-              this.movie.photos.forEach((photo) => {
-                require(photo.imgClientPath);
-              });
-            }
-          }
-        })
+        .then(() => {})
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||

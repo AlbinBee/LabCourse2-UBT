@@ -11,6 +11,8 @@
                   v-for="(photo, i) in movie.photos"
                   :key="i"
                   :src="photo.imgClientPath"
+                  min-width="1100"
+                  max-width="1100"
                   reverse-transition="fade-transition"
                   transition="fade-transition"
                 >
@@ -134,19 +136,11 @@ export default {
       };
       this.$store
         .dispatch("getMovie", query)
-        .then(() => {
-          if (this.movies.length > 0) {
-            if (this.movies.photos.length > 0) {
-              this.movies.photos.forEach((photo) => {
-                require(photo.imgClientPath);
-              });
-            }
-          }
-        })
+        .then(() => {})
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||
-              "Something went wrong while fetching movie!"
+              "Something went wrong while fetching movie details!"
           );
         });
     },

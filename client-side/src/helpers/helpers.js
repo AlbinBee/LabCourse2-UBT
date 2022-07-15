@@ -2,6 +2,8 @@ import { format } from "date-fns";
 
 const helpers = {
   methods: {
+    formatSimpleDateTime: (isoDate) =>
+      isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd") : "-",
     formatDateTime: (isoDate) =>
       isoDate ? format(new Date(`${isoDate}Z`), "yyyy-MM-dd HH:mm:ss") : "-",
     formatOffsetDateTime: (isoDate) =>
@@ -42,6 +44,7 @@ const helpers = {
       this.$bvToast.toast(message, {
         toastClass: "general-toast-class",
         solid: true,
+        autoHideDelay: 2000,
         title,
         variant,
       });

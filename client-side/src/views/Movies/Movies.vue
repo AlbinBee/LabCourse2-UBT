@@ -1,13 +1,13 @@
 <template>
   <div>
+    <h1 class="d-flex justify-content-center">Movies</h1>
     <div v-if="loading"><loading-page /></div>
     <div v-else>
-      <h1 class="subheading grey--text">Movies</h1>
-      <v-container class="container d-flex justify-content-center flex-wrap">
+      <div class="d-flex justify-content-center flex-wrap">
         <div v-for="movie in movies" :key="movie.id" class="ml-5 mr-5">
           <movie-card :movie="movie" />
         </div>
-      </v-container>
+      </div>
     </div>
   </div>
 </template>
@@ -56,15 +56,16 @@ export default {
           this.cinemaId == null ? this.cinema.id : this.cinemaId
         )
         .then(() => {
-          if (this.movies.length > 0) {
-            if (this.movies.photos.length > 0) {
-              this.movie.photos.forEach((photo) => {
-                require(photo.imgClientPath);
-              });
-            }
-          }
+          // if (this.movies.length > 0) {
+          //   if (this.movies.photos && this.movies.photos.length > 0) {
+          //     this.movies.photos.forEach((photo) => {
+          //       require(photo.imgClientPath);
+          //     });
+          //   }
+          // }
         })
         .catch((error) => {
+          console.log(error);
           this.errorToast(
             error.response?.data?.errors[0] ||
               "Something went wrong while fetching movies!"

@@ -1,12 +1,39 @@
 <template>
   <div class="header">
-    <a class="logo" :to="{ name: 'Home' }">CinemaVerse</a>
-    <div class="header-right">
+    <router-link :to="{ name: 'Home' }">
+      <img
+        src="http://localhost:8080/assets/main-logo_1.jpg"
+        alt="Logo"
+        max-width="30"
+        class="logo-img"
+      />
+    </router-link>
+    <div class="header-right align-middle">
       <div class="left">
-        <router-link class="active" :to="{ name: 'Home' }"> Home </router-link>
-        <router-link :to="{ name: 'Events' }"> Events </router-link>
-        <router-link :to="{ name: 'Movies' }"> Movies </router-link>
-        <router-link :to="{ name: 'Cinemas' }"> Cinemas </router-link>
+        <router-link
+          :class="routeName == 'Home' && 'active'"
+          :to="{ name: 'Home' }"
+        >
+          Home
+        </router-link>
+        <router-link
+          :class="routeName == 'Events' && 'active'"
+          :to="{ name: 'Events' }"
+        >
+          Events
+        </router-link>
+        <router-link
+          :class="routeName == 'Movies' && 'active'"
+          :to="{ name: 'Movies' }"
+        >
+          Movies
+        </router-link>
+        <router-link
+          :class="routeName == 'Cinemas' && 'active'"
+          :to="{ name: 'Cinemas' }"
+        >
+          Cinemas
+        </router-link>
         <v-select
           solo
           v-model="selectedCinema"
@@ -21,11 +48,23 @@
           outlined
           text
           v-if="!isLoggedIn"
+          :class="routeName == 'Login' && 'active'"
           :to="{ name: 'Login' }"
           class="mr-2"
         >
           <span>Login</span>
           <v-icon right>login</v-icon>
+        </v-btn>
+        <v-btn
+          outlined
+          text
+          v-if="!isLoggedIn"
+          :class="routeName == 'Register' && 'active'"
+          :to="{ name: 'Register' }"
+          class="mr-2"
+        >
+          <span>Sign Up</span>
+          <v-icon right>person_add</v-icon>
         </v-btn>
 
         <v-avatar v-if="isLoggedIn" size="50">
@@ -106,6 +145,7 @@ export default {
   },
   methods: {
     changeCinema() {
+      console.log(this.$route);
       this.$store
         .dispatch("getCinema", this.selectedCinema.id)
         .catch((error) => {
@@ -140,6 +180,9 @@ export default {
     },
   },
   computed: {
+    routeName() {
+      return this.$route.name;
+    },
     user() {
       return this.$store.state.users.user;
     },
@@ -151,6 +194,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.logo-img {
+  max-width: 250px;
+}
 .header-right {
   display: flex;
   flex-direction: row;
