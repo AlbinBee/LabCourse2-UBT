@@ -19,12 +19,6 @@ export default [
 			),
 	},
 	{
-		path: "/event",
-		name: "Event",
-		component: () =>
-			import(/* webpackChunkName: "register" */ "../../views/Events/Event.vue"),
-	},
-	{
 		path: "/admin/events/cinemaId/:cinemaId/create",
 		name: "event-create",
 		meta: {
