@@ -74,10 +74,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  flex-direction: row;
-  justify-content: center;
-}
 input {
   border: 1px solid black;
   padding: 20px;

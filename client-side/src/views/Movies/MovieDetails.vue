@@ -79,6 +79,14 @@
           <movie-schedules />
         </div>
       </div>
+      <hr />
+      <div style=" margin-top: 50px; margin-bottom: 50px;" class="d-flex justify-content-center">
+        <div class="container m0">
+          <h1 class="d-flex justify-content-center mb-5">
+            Reviews for this movie
+          </h1>
+        </div>
+      </div>
     </div>
   </div>
 </template>

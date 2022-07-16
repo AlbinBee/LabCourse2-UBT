@@ -75,42 +75,42 @@
           v-if="isLoggedIn"
           @click.stop="drawer = !drawer"
         ></v-app-bar-nav-icon>
-          <v-navigation-drawer v-model="drawer" absolute bottom temporary>
-            <v-list nav dense>
-              <v-list-item-group
-                v-model="group"
-                active-class="deep-purple--text text--accent-4"
-              >
-                <v-list-item>
-                  <v-list-item-title>
-                    <router-link v-if="user.isAdmin" :to="{ name: 'Admin' }">
-                      Admin
-                    </router-link>
-                  </v-list-item-title>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-title>
-                    <router-link
-                      v-if="isLoggedIn"
-                      class="link"
-                      :to="{ name: 'Profile' }"
-                    >
-                      {{ user.displayName }}
-                    </router-link></v-list-item-title
-                  >
-                </v-list-item>
-              </v-list-item-group>
-
+        <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+          <v-list nav dense>
+            <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+            >
               <v-list-item>
-                <v-list-item-title @click="handleSignOut()">
-                  <router-link :to="{ name: 'Login' }"> Sign Out </router-link>
+                <v-list-item-title>
+                  <router-link v-if="user.isAdmin" :to="{ name: 'Admin' }">
+                    Admin
+                  </router-link>
                 </v-list-item-title>
               </v-list-item>
-            </v-list>
-          </v-navigation-drawer>
-        </div>
+
+              <v-list-item>
+                <v-list-item-title>
+                  <router-link
+                    v-if="isLoggedIn"
+                    class="link"
+                    :to="{ name: 'Profile' }"
+                  >
+                    {{ user.displayName }}
+                  </router-link></v-list-item-title
+                >
+              </v-list-item>
+            </v-list-item-group>
+
+            <v-list-item>
+              <v-list-item-title @click="handleSignOut()">
+                <router-link :to="{ name: 'Login' }"> Sign Out </router-link>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
       </div>
+    </div>
   </div>
 </template>
 

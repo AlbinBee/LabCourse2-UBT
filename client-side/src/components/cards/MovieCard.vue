@@ -4,11 +4,19 @@
       <v-img
         v-if="movie.photos.length > 0"
         height="250"
+        max-width="350"
+        min-width="350"
+        min-height="350"
+        max-height="350"
         :src="movie.photos[0].imgClientPath"
       ></v-img>
       <v-img
         v-else
         height="250"
+        max-width="350"
+        min-width="350"
+        min-height="350"
+        max-height="350"
         src="http://localhost:8080/assets/app_files/Movies/default-image.jpg"
       ></v-img>
 
