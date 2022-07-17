@@ -52,7 +52,7 @@
 			<h1 class="text-center">Images</h1>
 			<EventCardDetail :event="event" />
 		</div>
-		
+
 		<!-- <div class="container">
 			<div class="header">
 				<img :src="event.photos[0].imgClientPath" alt="no" />
@@ -160,8 +160,7 @@ export default {
 	background-color: rgb(196, 179, 179);
 
 	h1 {
-		align-items: center;
-		margin-top: 20%;
+		margin-top: revert;
 	}
 }
 </style>
