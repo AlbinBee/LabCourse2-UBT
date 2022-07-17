@@ -51,19 +51,8 @@ export default {
     },
     getMovies() {
       this.$store
-        .dispatch(
-          "getMovies",
-          this.cinemaId == null ? this.cinema.id : this.cinemaId
-        )
-        .then(() => {
-          // if (this.movies.length > 0) {
-          //   if (this.movies.photos && this.movies.photos.length > 0) {
-          //     this.movies.photos.forEach((photo) => {
-          //       require(photo.imgClientPath);
-          //     });
-          //   }
-          // }
-        })
+        .dispatch("getMovies", this.cinema.id)
+        .then(() => {})
         .catch((error) => {
           console.log(error);
           this.errorToast(

@@ -73,14 +73,24 @@
       </div>
       <div class="d-flex justify-content-center">
         <div class="container m0">
-          <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
+          <h1 class="d-flex justify-content-center mb-5">Cast</h1>
           <!-- Add this view to another view -->
           <!-- Add actors here -->
+          <movie-actors />
+        </div>
+      </div>
+      <hr />
+      <div class="d-flex justify-content-center">
+        <div class="container m0">
+          <h1 class="d-flex justify-content-center mb-5">Today's Schedule</h1>
           <movie-schedules />
         </div>
       </div>
       <hr />
-      <div style=" margin-top: 50px; margin-bottom: 50px;" class="d-flex justify-content-center">
+      <div
+        style="margin-top: 50px; margin-bottom: 50px"
+        class="d-flex justify-content-center"
+      >
         <div class="container m0">
           <h1 class="d-flex justify-content-center mb-5">
             Reviews for this movie
@@ -99,17 +109,19 @@ import { setInteractionMode } from "vee-validate";
 import MovieSchedules from "./MovieSchedules.vue";
 import ReviewCard from '../../components/Reviews/ReviewCard.vue'
 import AddReview from '../../components/Reviews/AddReview.vue'
+import MovieActors from "./MovieActors.vue";
 
 setInteractionMode("eager");
 
 export default {
-  components: { MovieSchedules,AddReview,ReviewCard },
+  components: { MovieSchedules,AddReview,ReviewCard, MovieActors },
   data() {
     return {
       cinemaId: null,
       required,
       numberInt,
       minValueRule,
+      todayDate: this.formatShortDateTime(new Date()),
     };
   },
   created() {
@@ -138,6 +150,9 @@ export default {
     },
   },
   methods: {
+    handleCHange() {
+      console.log(this.todayDate);
+    },
     submit() {
       this.$refs.observer.validate();
     },
@@ -148,13 +163,27 @@ export default {
       };
       this.$store
         .dispatch("getMovie", query)
-        .then(() => {})
+        .then(() => {
+          this.getMovieTimes();
+        })
         .catch((error) => {
           this.errorToast(
             error.response?.data?.errors[0] ||
               "Something went wrong while fetching movie details!"
           );
         });
+    },
+    getMovieTimes() {
+      const query = {
+        cinemaId: this.cinema.id,
+        movieId: this.movie.id,
+      };
+      this.$store.dispatch("getMovieTimes", query).catch((error) => {
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching movie times!"
+        );
+      });
     },
   },
 };
