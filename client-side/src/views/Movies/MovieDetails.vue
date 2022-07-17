@@ -85,6 +85,8 @@
           <h1 class="d-flex justify-content-center mb-5">
             Reviews for this movie
           </h1>
+          <review-card/>
+          <add-review/>
         </div>
       </div>
     </div>
@@ -95,11 +97,13 @@
 import { required, numberInt, minValueRule } from "@/helpers/validations";
 import { setInteractionMode } from "vee-validate";
 import MovieSchedules from "./MovieSchedules.vue";
+import ReviewCard from '../../components/Reviews/ReviewCard.vue'
+import AddReview from '../../components/Reviews/AddReview.vue'
 
 setInteractionMode("eager");
 
 export default {
-  components: { MovieSchedules },
+  components: { MovieSchedules,AddReview,ReviewCard },
   data() {
     return {
       cinemaId: null,
