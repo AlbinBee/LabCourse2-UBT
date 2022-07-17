@@ -105,21 +105,42 @@
 				</v-slide-group>
 			</v-sheet>
 		</div>
-
-		<div style="margin-top: 40px; margin-bottom: 40px">
-			<v-main
-				style="margin-top: 40px; margin-bottom: 40px"
-				class="grey lighten-2"
+		<div style="margin-top: 60px; margin-bottom: 60px">
+			<h1 class="container d-flex justify-content-center">Events</h1>
+			<v-sheet
+				class="d-flex justify-content-center mx-auto"
+				elevation="10"
+				max-height="1000"
 			>
-				<v-container>
-					<v-row>
-						<v-col v-for="n in 6" :key="n" cols="6">
-							<v-card height="200"></v-card>
-						</v-col>
-					</v-row>
-				</v-container>
-			</v-main>
+				<v-slide-group
+					v-model="model"
+					class="d-flex justify-content-center pa-4 ma-2"
+					active-class="success"
+					show-arrows
+				>
+					<v-slide-item
+						v-for="movie in movies"
+						:key="movie.id"
+						v-slot="{ toggle }"
+						style="margin-top: 20px; margin-bottom: 20px"
+						class="d-flex justify-content-center"
+					>
+						<div class="ml-2 mr-2">
+							<v-card @click="toggle">
+								<v-row align="center" justify="center">
+									<EventCardPhoto style="margin: 60px" :event="events[0]" />
+								</v-row>
+							</v-card>
+						</div>
+					</v-slide-item>
+				</v-slide-group>
+			</v-sheet>
 		</div>
+
+		<!-- <div>
+			<h1 class="text-center">Events</h1>
+			<EventCardPhoto :event="events[0]" />
+		</div> -->
 
 		<v-divider></v-divider>
 
@@ -141,6 +162,7 @@ import UpcomingMovies from "../components/SlideshowMovies.vue";
 import Social from "../components/Social.vue";
 import Welcome from "../components/Welcome.vue";
 import MovieCard from "@/components/cards/MovieCard.vue";
+import EventCardPhoto from "@/components/EventCardPhoto.vue";
 export default {
 	name: "Home",
 	components: {
@@ -148,6 +170,7 @@ export default {
 		UpcomingMovies,
 		Social,
 		Welcome,
+		EventCardPhoto,
 	},
 	data() {
 		return {
@@ -186,6 +209,8 @@ export default {
 	created() {
 		this.getCinemas();
 		this.getMovies();
+		this.getEvents();
+		console.log("events", this.events);
 	},
 	computed: {
 		movies() {
@@ -196,6 +221,9 @@ export default {
 		},
 		cinema() {
 			return this.$store.state.cinemas.cinema;
+		},
+		events() {
+			return this.$store.state.events.events;
 		},
 
 		user() {
@@ -222,6 +250,28 @@ export default {
 					this.errorToast(
 						error.response?.data?.errors[0] ||
 							"Something went wrong while fetching movies!"
+					);
+				});
+		},
+		getEvents() {
+			this.$store
+				.dispatch(
+					"getEvents",
+					this.cinemaId == null ? this.cinema.id : this.cinemaId
+				)
+				.then(() => {
+					if (this.events.length > 0) {
+						if (this.events.photos.length > 0) {
+							this.events.photos.forEach((photo) => {
+								require(photo.imgClientPath);
+							});
+						}
+					}
+				})
+				.catch((error) => {
+					console.log(
+						error.response?.data?.errors[0] ||
+							"Something went wrong while fetching events!"
 					);
 				});
 		},
