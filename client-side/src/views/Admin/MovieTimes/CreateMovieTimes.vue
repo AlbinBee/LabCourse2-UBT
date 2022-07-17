@@ -27,6 +27,7 @@
             <v-text-field
               v-model="startTime"
               type="datetime-local"
+              :min="formatShortDateTime(new Date())"
               :error-messages="errors"
               label="Start Time"
               outlined
@@ -41,6 +42,7 @@
             <v-text-field
               v-model="endTime"
               type="datetime-local"
+              :min="startTime"
               :error-messages="errors"
               label="End Time"
               outlined

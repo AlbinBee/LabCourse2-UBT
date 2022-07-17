@@ -81,7 +81,7 @@
           v-model="model"
           class="d-flex justify-content-center pa-4 ma-2"
           active-class="success"
-          show-arrows
+          show-arrows="always"
         >
           <v-slide-item
             v-for="movie in movies"
@@ -273,15 +273,7 @@ export default {
         });
     },
   },
-  props: {
-    isLoggedIn: {
-      required: true,
-      type: Boolean,
-    },
-    auth: {
-      required: true,
-    },
-  },
+  props: {},
 };
 </script>
 

@@ -66,8 +66,10 @@
           <span>Sign Up</span>
           <v-icon right>person_add</v-icon>
         </v-btn>
-        <div class="hidethis">
-          <v-avatar v-if="isLoggedIn" size="50">
+
+        <div v-if="isLoggedIn" class="hidethis">
+          {{ user.displayName }}
+          <v-avatar size="50">
             <img :src="user.photoURL" />
           </v-avatar>
         </div>
@@ -94,11 +96,23 @@
                   <router-link
                     v-if="isLoggedIn"
                     class="link"
+                    :to="{ name: 'MyTickets' }"
+                  >
+                    My Tickets
+                  </router-link>
+                </v-list-item-title>
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-title>
+                  <router-link
+                    v-if="isLoggedIn"
+                    class="link"
                     :to="{ name: 'Profile' }"
                   >
                     {{ user.displayName }}
-                  </router-link></v-list-item-title
-                >
+                  </router-link>
+                </v-list-item-title>
               </v-list-item>
             </v-list-item-group>
 
