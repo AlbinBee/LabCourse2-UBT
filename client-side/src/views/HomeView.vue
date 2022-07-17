@@ -59,7 +59,6 @@
                   class="display-3 font-weight-black mb-4"
                   v-text="value"
                 ></div>
-
                 <div
                   class="title font-weight-regular text-uppercase"
                   v-text="title"
@@ -81,7 +80,7 @@
           v-model="model"
           class="d-flex justify-content-center pa-4 ma-2"
           active-class="success"
-          show-arrows
+          show-arrows="always"
         >
           <v-slide-item
             v-for="movie in movies"
@@ -105,70 +104,43 @@
         </v-slide-group>
       </v-sheet>
     </div>
-
-    <div style="margin-top: 40px; margin-bottom: 40px">
-      <v-main
-        style="margin-top: 40px; margin-bottom: 40px"
-        class="grey lighten-2"
+    <div style="margin-top: 60px; margin-bottom: 60px">
+      <h1 class="container d-flex justify-content-center">Events</h1>
+      <v-sheet
+        class="d-flex justify-content-center mx-auto"
+        elevation="10"
+        max-height="1000"
       >
-        <v-container>
-          <v-row>
-            <v-col v-for="n in 6" :key="n" cols="6">
-              <v-card height="200"></v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-main>
+        <v-slide-group
+          v-model="model"
+          class="d-flex justify-content-center pa-4 ma-2"
+          active-class="success"
+          show-arrows
+        >
+          <v-slide-item
+            v-for="movie in movies"
+            :key="movie.id"
+            v-slot="{ toggle }"
+            style="margin-top: 20px; margin-bottom: 20px"
+            class="d-flex justify-content-center"
+          >
+            <div class="ml-2 mr-2">
+              <v-card @click="toggle">
+                <v-row align="center" justify="center">
+                  <EventCardPhoto style="margin: 60px" :event="events[0]" />
+                </v-row>
+              </v-card>
+            </div>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
     </div>
-    <v-divider></v-divider>
-    <div>
-      <div class="row">
-        <div class="col-sm-3 col-6">
-          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
-						>Image</small
-					> -->
-          <img
-            src="../assets/theme/team-1-800x800.jpg"
-            alt="Rounded image"
-            class="img-fluid rounded shadow"
-            style="width: 150px"
-          />
-        </div>
-        <div class="col-sm-3 col-6">
-          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
-						>Circle Image</small
-					> -->
-          <img
-            src="../assets/theme/team-2-800x800.jpg"
-            alt="Circle image"
-            class="img-fluid rounded-circle shadow"
-            style="width: 150px"
-          />
-        </div>
-        <div class="col-sm-3 col-6 mt-5 mt-sm-0">
-          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
-						>Raised</small
-					> -->
-          <img
-            src="../assets/theme/team-3-800x800.jpg"
-            alt="Raised image"
-            class="img-fluid rounded shadow-lg"
-            style="width: 150px"
-          />
-        </div>
-        <div class="col-sm-3 col-6 mt-5 mt-sm-0">
-          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
-						>Circle Raised</small
-					> -->
-          <img
-            src="../assets/theme/team-4-800x800.jpg"
-            alt="Raised circle image"
-            class="img-fluid rounded-circle shadow-lg"
-            style="width: 150px"
-          />
-        </div>
-      </div>
-    </div>
+
+    <!-- <div>
+			<h1 class="text-center">Events</h1>
+			<EventCardPhoto :event="events[0]" />
+		</div> -->
+
     <v-divider></v-divider>
 
     <v-divider></v-divider>
@@ -189,6 +161,8 @@ import UpcomingMovies from "../components/SlideshowMovies.vue";
 import Social from "../components/Social.vue";
 import Welcome from "../components/Welcome.vue";
 import MovieCard from "@/components/cards/MovieCard.vue";
+import EventCardPhoto from "@/components/EventCardPhoto.vue";
+
 export default {
   name: "Home",
   components: {
@@ -196,6 +170,7 @@ export default {
     UpcomingMovies,
     Social,
     Welcome,
+    EventCardPhoto,
   },
   data() {
     return {
@@ -234,6 +209,7 @@ export default {
   created() {
     this.getCinemas();
     this.getMovies();
+    this.getEvents();
   },
   computed: {
     movies() {
@@ -247,6 +223,9 @@ export default {
     },
     user() {
       return this.$store.state.users.user;
+    },
+    events() {
+      return this.$store.state.events.events;
     },
   },
   methods: {
@@ -272,16 +251,21 @@ export default {
           );
         });
     },
-  },
-  props: {
-    isLoggedIn: {
-      required: true,
-      type: Boolean,
+    getEvents() {
+      this.$store
+        .dispatch(
+          "getEvents",
+          this.cinemaId == null ? this.cinema.id : this.cinemaId
+        )
+        .catch((error) => {
+          console.log(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching events!"
+          );
+        });
     },
-    auth: {
-      required: true,
-    },
   },
+  props: {},
 };
 </script>
 
