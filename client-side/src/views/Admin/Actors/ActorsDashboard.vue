@@ -65,10 +65,34 @@
           :class="{ loaded: !loading }"
           class="elevation-1"
         >
-          <template v-slot:[`item.name`]="{ item }">
-            <a class="link" @click="onDetailsClick(item.id)">{{
-              item.firstName
-            }}</a>
+          <template v-slot:[`item.fullName`]="{ item }">
+            <a class="link" @click="onDetailsClick(item.id)">
+              {{ `${item.firstName} ${item.lastName}` }}
+            </a>
+          </template>
+          <template v-slot:[`item.avatar`]="{ item }">
+            <v-avatar contain class="ma-2" color="blue">
+              <img
+                v-if="item.photos.length > 0"
+                :src="item.photos[0].imgClientPath"
+                :alt="item.id"
+                class="avatar-image"
+              />
+              <img
+                v-else
+                src="http://localhost:8080/assets/app_files/Movies/default-image.jpg"
+                :alt="item.id"
+                class="avatar-image"
+              />
+            </v-avatar>
+          </template>
+          <template v-slot:[`item.genre`]="{ item }">
+            <v-chip class="ma-2" color="primary lighten-2">
+              {{ item.genre }}
+            </v-chip>
+          </template>
+          <template v-slot:[`item.birth`]="{ item }">
+            <span>{{ formatSimpleDateTime(item.birth) }}</span>
           </template>
           <template #empty>
             <div v-if="loading" class="loading-table text-center py-1">
@@ -102,9 +126,8 @@ export default {
           sortable: false,
           value: "id",
         },
-        { text: "First Name", value: "firstName" },
-        { text: "Last Name", value: "lastName" },
-        { text: "Image", sortable: false, value: "imgPath" },
+        { text: "Full Name", value: "fullName" },
+        { text: "Image", value: "avatar" },
         { text: "Nationality", value: "nationality" },
         { text: "Genre", value: "genre" },
         { text: "Birth", value: "birth" },

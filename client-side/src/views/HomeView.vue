@@ -70,60 +70,49 @@
         </v-container>
       </v-parallax>
     </section>
-    <div>
-      <!-- <v-main class="grey lighten-2">
-				<v-container>
-					<v-row>
-						<p>Qitu mi shfaq do movies</p>
-						<v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
-							<v-sheet height="150">
-								<img :src="cinemas" alt="" />
-							</v-sheet>
-						</v-col>
-					</v-row>
-				</v-container>
-			</v-main> -->
+    <div style="margin-top: 60px; margin-bottom: 60px">
+      <h1 class="container d-flex justify-content-center">Available Movies</h1>
       <v-sheet
-        class="mx-auto"
+        class="d-flex justify-content-center mx-auto"
         elevation="10"
-        max-width="1000"
         max-height="1000"
       >
         <v-slide-group
           v-model="model"
-          class="pa-4"
+          class="d-flex justify-content-center pa-4 ma-2"
           active-class="success"
           show-arrows
         >
-          <v-slide-item v-for="n in 15" :key="n" v-slot="{ active, toggle }">
-            <v-card
-              :color="active ? undefined : 'grey lighten-1'"
-              class="ma-4"
-              height="200"
-              width="150"
-              @click="toggle"
-            >
-              <v-row class="fill-height" align="center" justify="center">
-                <v-scale-transition>
-                  <v-icon
-                    v-if="active"
-                    color="white"
-                    size="48"
-                    v-text="'mdi-close-circle-outline'"
-                  ></v-icon>
-                </v-scale-transition>
-              </v-row>
-            </v-card>
+          <v-slide-item
+            v-for="movie in movies"
+            :key="movie.id"
+            v-slot="{ toggle }"
+            style="margin-top: 20px; margin-bottom: 20px"
+            class="d-flex justify-content-center"
+          >
+            <div class="ml-2 mr-2">
+              <v-card @click="toggle">
+                <v-row align="center" justify="center">
+                  <movie-card
+                    style="margin: 60px"
+                    :hideDetails="true"
+                    :movie="movie"
+                  />
+                </v-row>
+              </v-card>
+            </div>
           </v-slide-item>
         </v-slide-group>
       </v-sheet>
     </div>
 
-    <div>
-      <v-main class="grey lighten-2">
+    <div style="margin-top: 40px; margin-bottom: 40px">
+      <v-main
+        style="margin-top: 40px; margin-bottom: 40px"
+        class="grey lighten-2"
+      >
         <v-container>
           <v-row>
-            <p>evente</p>
             <v-col v-for="n in 6" :key="n" cols="6">
               <v-card height="200"></v-card>
             </v-col>
@@ -131,6 +120,57 @@
         </v-container>
       </v-main>
     </div>
+    <v-divider></v-divider>
+    <div>
+      <div class="row">
+        <div class="col-sm-3 col-6">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Image</small
+					> -->
+          <img
+            src="../assets/theme/team-1-800x800.jpg"
+            alt="Rounded image"
+            class="img-fluid rounded shadow"
+            style="width: 150px"
+          />
+        </div>
+        <div class="col-sm-3 col-6">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Circle Image</small
+					> -->
+          <img
+            src="../assets/theme/team-2-800x800.jpg"
+            alt="Circle image"
+            class="img-fluid rounded-circle shadow"
+            style="width: 150px"
+          />
+        </div>
+        <div class="col-sm-3 col-6 mt-5 mt-sm-0">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Raised</small
+					> -->
+          <img
+            src="../assets/theme/team-3-800x800.jpg"
+            alt="Raised image"
+            class="img-fluid rounded shadow-lg"
+            style="width: 150px"
+          />
+        </div>
+        <div class="col-sm-3 col-6 mt-5 mt-sm-0">
+          <!-- <small class="d-block text-uppercase font-weight-bold mb-4"
+						>Circle Raised</small
+					> -->
+          <img
+            src="../assets/theme/team-4-800x800.jpg"
+            alt="Raised circle image"
+            class="img-fluid rounded-circle shadow-lg"
+            style="width: 150px"
+          />
+        </div>
+      </div>
+    </div>
+    <v-divider></v-divider>
+
     <v-divider></v-divider>
     <div>
       <Welcome />
@@ -148,15 +188,18 @@
 import UpcomingMovies from "../components/SlideshowMovies.vue";
 import Social from "../components/Social.vue";
 import Welcome from "../components/Welcome.vue";
+import MovieCard from "@/components/cards/MovieCard.vue";
 export default {
   name: "Home",
   components: {
+    MovieCard,
     UpcomingMovies,
     Social,
     Welcome,
   },
   data() {
     return {
+      cinemaId: null,
       stats: [
         ["1500+", "Tickets Sold"],
         ["145+", "Movies Streamed"],
@@ -183,13 +226,27 @@ export default {
       model: null,
     };
   },
+  watch: {
+    cinema() {
+      return this.getMovies();
+    },
+  },
   created() {
     this.getCinemas();
+    this.getMovies();
   },
   computed: {
+    movies() {
+      return this.$store.state.movies.movies;
+    },
     cinemas() {
       return this.$store.state.cinemas.cinemas;
-      // [0].photos[0].imgClientPath
+    },
+    cinema() {
+      return this.$store.state.cinemas.cinema;
+    },
+    user() {
+      return this.$store.state.users.user;
     },
   },
   methods: {
@@ -200,6 +257,29 @@ export default {
             "Something went wrong while fetching cinemas!"
         );
       });
+    },
+    getMovies() {
+      this.$store
+        .dispatch(
+          "getMovies",
+          this.cinemaId == null ? this.cinema.id : this.cinemaId
+        )
+        .then(() => {})
+        .catch((error) => {
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching movies!"
+          );
+        });
+    },
+  },
+  props: {
+    isLoggedIn: {
+      required: true,
+      type: Boolean,
+    },
+    auth: {
+      required: true,
     },
   },
 };

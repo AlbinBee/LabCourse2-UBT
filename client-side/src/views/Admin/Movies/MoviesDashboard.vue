@@ -81,6 +81,42 @@
         <template v-slot:[`item.title`]="{ item }">
           <a class="link" @click="onDetailsClick(item.id)">{{ item.title }}</a>
         </template>
+        <template v-slot:[`item.image`]="{ item }">
+          <v-avatar contain class="ma-2" color="blue">
+            <img
+              class="avatar-image"
+              v-if="item.photos.length > 0"
+              :src="item.photos[0].imgClientPath"
+              :alt="item.id"
+            />
+            <img
+              v-else
+              src="http://localhost:8080/assets/app_files/Movies/default-image.jpg"
+              class="avatar-image"
+              :alt="item.id"
+            />
+          </v-avatar>
+        </template>
+        <template v-slot:[`item.actors`]="{ item }">
+          <div v-if="item.actors.length > 0">
+            <b-avatar-group size="45px">
+              <b-avatar
+                v-b-tooltip.hover
+                :title="`${actor.firstName} ${actor.lastName}`"
+                v-for="actor in item.actors"
+                :key="actor.id"
+                :src="actor.photos[0].imgClientPath"
+                variant="dark"
+              >
+              </b-avatar>
+            </b-avatar-group>
+          </div>
+        </template>
+        <template v-slot:[`item.genre`]="{ item }">
+          <v-chip class="ma-2" color="primary lighten-2">
+            {{ item.genre }}
+          </v-chip>
+        </template>
         <template slot="no-data">
           <div v-if="loading" class="loading-table text-center py-1">
             <b-spinner variant="primary" />
@@ -114,6 +150,8 @@ export default {
           value: "id",
         },
         { text: "Title", value: "title" },
+        { text: "Image", value: "image" },
+        { text: "Actors", value: "actors" },
         { text: "Trailer Link", sortable: false, value: "trailerLink" },
         { text: "Country", value: "country" },
         { text: "Language", value: "language" },
@@ -161,14 +199,12 @@ export default {
       this.getMovies(this.selectedCinema);
     },
     getCinema() {
-      this.$store
-        .dispatch("getCinema")
-        .catch((error) => {
-          this.errorToast(
-            error.response?.data?.errors[0] ||
-              "Something went wrong while fetching cinemas!"
-          );
-        });
+      this.$store.dispatch("getCinema").catch((error) => {
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching cinemas!"
+        );
+      });
     },
     getCinemas() {
       this.$store
@@ -242,4 +278,8 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+.avatar-image {
+  object-fit: cover;
+}
+</style>
