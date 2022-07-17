@@ -25,6 +25,9 @@ import halls from "./Halls/halls";
 //Movie Times
 import movieTimes from "./MovieTimes/movieTimes";
 
+//Movie Reviews
+import reviews from "./Reviews/reviews";
+
 const initialState = {
   users: { ...users.state },
 };
@@ -46,6 +49,7 @@ export default new Vuex.Store({
     actors,
     halls,
     movieTimes,
+    reviews,
   },
   state: {},
   mutations: {

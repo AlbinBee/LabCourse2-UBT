@@ -95,8 +95,41 @@
           <h1 class="d-flex justify-content-center mb-5">
             Reviews for this movie
           </h1>
-          <review-card/>
-          <add-review/>
+          <div style="margin-top: 60px; margin-bottom: 60px">
+            <v-sheet
+              class="d-flex justify-content-center mx-auto"
+              elevation="10"
+              max-height="1000"
+            >
+              <v-slide-group
+                v-model="model"
+                class="d-flex justify-content-center pa-4 ma-2"
+                active-class="success"
+                show-arrows
+              >
+                <v-slide-item
+                  v-for="review in reviews"
+                  :key="review.id"
+                  v-slot="{ toggle }"
+                  style="margin-top: 20px; margin-bottom: 20px"
+                  class="d-flex justify-content-center"
+                >
+                  <div class="ml-2 mr-2">
+                    <v-card @click="toggle">
+                      <v-row align="center" justify="center">
+                        <review-card
+                          style="margin: 60px"
+                          :hideDetails="true"
+                          :movie="movie"
+                        />
+                      </v-row>
+                    </v-card>
+                  </div>
+                </v-slide-item>
+              </v-slide-group>
+            </v-sheet>
+          </div>
+          <add-review />
         </div>
       </div>
     </div>
@@ -107,14 +140,19 @@
 import { required, numberInt, minValueRule } from "@/helpers/validations";
 import { setInteractionMode } from "vee-validate";
 import MovieSchedules from "./MovieSchedules.vue";
-import ReviewCard from '../../components/Reviews/ReviewCard.vue'
-import AddReview from '../../components/Reviews/AddReview.vue'
+import ReviewCard from "../../components/Reviews/ReviewCard.vue";
+import AddReview from "../../components/Reviews/AddReview.vue";
 import MovieActors from "./MovieActors.vue";
 
 setInteractionMode("eager");
 
 export default {
-  components: { MovieSchedules,AddReview,ReviewCard, MovieActors },
+  components: {
+    MovieSchedules,
+    AddReview,
+    ReviewCard,
+    MovieActors,
+  },
   data() {
     return {
       cinemaId: null,
@@ -122,12 +160,14 @@ export default {
       numberInt,
       minValueRule,
       todayDate: this.formatShortDateTime(new Date()),
+      model: null,
     };
   },
   created() {
     this.movieId = this.$route.params.movieId;
     this.cinemaId = this.cinema.id;
     this.getMovie(this.movieId);
+    this.getReviews(this.movieId);
   },
   filters: {
     truncate: function (text, length, suffix) {
@@ -147,6 +187,9 @@ export default {
     },
     cinema() {
       return this.$store.state.cinemas.cinema;
+    },
+    reviews() {
+      return this.$store.state.reviews.review;
     },
   },
   methods: {
@@ -170,6 +213,20 @@ export default {
           this.errorToast(
             error.response?.data?.errors[0] ||
               "Something went wrong while fetching movie details!"
+          );
+        });
+    },
+    getReviews(movieId) {
+      const query = {
+        movieId: movieId,
+      };
+      this.$store
+        .dispatch("getReviews", query)
+        .then(() => {})
+        .catch((error) => {
+          this.errorToast(
+            error.response?.data?.errors[0] ||
+              "Something went wrong while fetching reviews!"
           );
         });
     },

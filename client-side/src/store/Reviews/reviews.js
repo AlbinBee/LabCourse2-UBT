@@ -3,8 +3,8 @@ import api from "@/libs/api";
 export default {
 	state: {
 		loading: false,
-		fetchingreviews: false,
-		removingreview: false,
+		fetchingReviews: false,
+		removingReview: false,
 		reviews: [],
 		review: {},
 	},
@@ -31,13 +31,13 @@ export default {
 		},
 	},
 	actions: {
-		getReviews({ commit }, reviewId) {
+		getReviews({ commit }, query) {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.get(`cinemas/${reviewId}/reviews`)
+					.get(`movies/${query.movieId}/reviews`)
 					.then((response) => {
-						commit("SET_reviewS", response.data.result);
+						commit("SET_REVIEWS", response.data.result);
 						resolve(response);
 					})
 					.catch((error) => {
@@ -52,7 +52,7 @@ export default {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.delete(`cinemas/${query.cinemaId}/reviews/${query.reviewId}`)
+					.delete(`movies/${query.movieId}/reviews/${query.reviewId}`)
 					.then((response) => {
 						commit("REMOVE_review", query.reviewId);
 						resolve(response);
@@ -69,9 +69,9 @@ export default {
 			commit("SET_LOADING", true);
 			return new Promise((resolve, reject) => {
 				api("movies")
-					.post(`cinemas/${query.cinemaId}/reviews`, query.review)
+					.post(`movies/${query.movieId}/reviews`, query.review)
 					.then((response) => {
-						commit("ADD_review", query.review);
+						commit("ADD_REVIEW", query.review);
 						resolve(response);
 					})
 					.catch((error) => {
