@@ -145,7 +145,6 @@ export default {
   },
   methods: {
     changeCinema() {
-      console.log(this.$route);
       this.$store
         .dispatch("getCinema", this.selectedCinema.id)
         .catch((error) => {

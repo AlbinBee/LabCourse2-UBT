@@ -5,15 +5,10 @@
     <div v-else class="d-flex justify-content-center flex-wrap">
       <div v-for="cinema in cinemas" :key="cinema.id" class="ml-5 mr-5">
         <v-card :loading="loading" class="mx-auto my-12" max-width="374">
-          <template slot="progress">
-            <v-progress-linear
-              color="deep-purple"
-              height="10"
-              indeterminate
-            ></v-progress-linear>
-          </template>
-
-          <v-img height="250" :src="cinema.photos[0].imgClientPath"></v-img>
+          <v-img
+            height="250"
+            :src="cinema.photos && cinema.photos[0].imgClientPath"
+          ></v-img>
 
           <v-card-title>{{ cinema.name }}</v-card-title>
 
@@ -112,9 +107,18 @@ export default {
       });
     },
     onMoviesClick(cinemaId) {
+      this.changeCinema(cinemaId);
       this.$router.push({
         name: "Movies",
         params: { cinemaId },
+      });
+    },
+    changeCinema(cinemaId) {
+      this.$store.dispatch("getCinema", cinemaId).catch((error) => {
+        this.errorToast(
+          error.response?.data?.errors[0] ||
+            "Something went wrong while fetching cinema!"
+        );
       });
     },
     getCinemas() {

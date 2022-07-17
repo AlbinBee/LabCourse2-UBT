@@ -97,14 +97,26 @@
             />
           </v-avatar>
         </template>
+        <template v-slot:[`item.actors`]="{ item }">
+          <div v-if="item.actors.length > 0">
+            <b-avatar-group size="45px">
+              <b-avatar
+                v-b-tooltip.hover
+                :title="`${actor.firstName} ${actor.lastName}`"
+                v-for="actor in item.actors"
+                :key="actor.id"
+                :src="actor.photos[0].imgClientPath"
+                variant="dark"
+              >
+              </b-avatar>
+            </b-avatar-group>
+          </div>
+        </template>
         <template v-slot:[`item.genre`]="{ item }">
           <v-chip class="ma-2" color="primary lighten-2">
             {{ item.genre }}
           </v-chip>
         </template>
-        <!-- <template v-slot:[`item.birth`]="{ item }">
-          <span>{{ formatSimpleDateTime(item.birth) }}</span>
-        </template> -->
         <template slot="no-data">
           <div v-if="loading" class="loading-table text-center py-1">
             <b-spinner variant="primary" />
@@ -139,6 +151,7 @@ export default {
         },
         { text: "Title", value: "title" },
         { text: "Image", value: "image" },
+        { text: "Actors", value: "actors" },
         { text: "Trailer Link", sortable: false, value: "trailerLink" },
         { text: "Country", value: "country" },
         { text: "Language", value: "language" },
