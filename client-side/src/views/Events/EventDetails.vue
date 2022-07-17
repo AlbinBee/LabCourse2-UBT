@@ -37,7 +37,7 @@
 					md="6"
 					:pa-5="$vuetify.breakpoint.smAndDown"
 				>
-					<v-row align="center" justify="center">
+					<v-row align="center" justify="center" style="margin-top:25px; margin-bottom:25px;">
 						<v-col cols="10" md="8">
 							<p>
 								{{ event.description }}
@@ -100,8 +100,6 @@ export default {
 			img: "https://img.freepik.com/premium-photo/background-empty-red-dark-podium-with-lights-tile-floor-3d-rendering_314485-400.jpg?w=2000",
 			stats: [
 				["50+", "Atteendees"],
-				// ["145+", "Movies Streamed"],
-				// ["2300+", "Visits"],
 				["89", "Price"],
 			],
 		};
@@ -110,8 +108,6 @@ export default {
 		this.eventId = this.$route.params.eventId;
 		this.cinemaId = this.cinema.id;
 		this.getEvent(this.eventId);
-		// console.log("getEVENT", this.getEvent(this.eventId));
-		console.log("testiiiii", this.event);
 	},
 	filters: {
 		truncate: function (text, length, suffix) {
@@ -135,9 +131,6 @@ export default {
 		user() {
 			return this.$store.state.users.user;
 		},
-		// photo(){
-		// 	return this.$store.sate
-		// },
 	},
 	methods: {
 		submit() {
@@ -169,91 +162,6 @@ export default {
 	h1 {
 		align-items: center;
 		margin-top: 20%;
-	}
-}
-.container {
-	margin-right: 10%;
-	margin-left: 10%;
-	width: 80%;
-	padding: 0;
-	height: auto;
-	border-radius: 20px;
-	border: 3px solid black;
-
-	.header {
-		border-radius: 20px !important;
-		width: 100%;
-		height: auto;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: nowrap;
-
-		img {
-			width: 50%;
-			height: 400px;
-			border-radius: 20px !important;
-		}
-
-		.informationDiv {
-			width: 50%;
-			height: 400px;
-			padding: 16px;
-			display: flex;
-			flex-direction: column;
-
-			div {
-				width: 100%;
-				height: 50%;
-			}
-
-			p {
-				font-size: 22px;
-				color: rgb(25, 118, 210);
-			}
-		}
-	}
-
-	@media (max-width: 900px) {
-		.header {
-			flex-direction: column;
-			width: 100%;
-
-			img {
-				width: 100%;
-			}
-
-			.informationDiv {
-				width: 100%;
-
-				h3 {
-					text-align: center;
-				}
-
-				p {
-					text-align: center;
-				}
-			}
-		}
-	}
-
-	.content {
-		height: auto;
-		width: 100%;
-		padding: 15px;
-
-		h4 {
-			text-align: center;
-			font-size: 32px;
-			margin-bottom: 3%;
-			margin-top: 3%;
-			color: black;
-		}
-
-		p {
-			font-size: 22px;
-			padding: 10px;
-			color: rgb(25, 118, 210);
-		}
 	}
 }
 </style>

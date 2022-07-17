@@ -3,7 +3,7 @@
     <v-form ref="form" v-model="valid" lazy-validation>
       <validation-provider
         v-slot="{ errors }"
-        name="reviewTitle"
+        name="Title"
         rules="required|min:5"
       >
         <v-text-field
@@ -18,7 +18,7 @@
       </validation-provider>
       <validation-provider
         v-slot="{ errors }"
-        name="reviewDescription"
+        name="Description"
         rules="required"
       >
         <v-text-field
