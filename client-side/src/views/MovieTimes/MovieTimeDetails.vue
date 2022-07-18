@@ -224,6 +224,7 @@ export default {
     };
   },
   created() {
+    this.isAdmin();
     this.cinemaId = this.$route.params.cinemaId;
     this.movieId = this.$route.params.movieId;
     this.hallId = this.$route.params.hallId;
@@ -260,6 +261,13 @@ export default {
     },
   },
   methods: {
+    isAdmin() {
+      if (Object.keys(this.currentUser).length === 0) {
+        this.$router.push({
+          name: "Movies",
+        });
+      }
+    },
     getHall() {
       const query = {
         cinemaId: this.cinemaId,
